@@ -1,5 +1,3 @@
-const myMap = () => {
-  console.log('first');
-};
+const myMap = () => {};
 
 myMap();
