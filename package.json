@@ -6,6 +6,7 @@
   "scripts": {
     "vite:dev": "vite",
     "tsx:dev": "npx tsx --watch src/index.ts",
+    "tsc:dev": "tsc --watch --project tsconfig.json",
     "build": "tsc && vite build",
     "lint": "eslint 'src/**/*.{ts,tsx}'"
   },
