@@ -1,2 +1,5 @@
-const qty: number = 22;
-console.log("qty", qty);
+import { TaskManager } from "./inheritance/level_0/TaskManager";
+
+const taskManager = new TaskManager();
+
+taskManager.addTask("Vanilla + typescript");
