@@ -1,4 +1,4 @@
-import { IErrorHandler, IExistsObj, IProduct, IProductManager, IValidator } from './ProductManagerTypes';
+import { IConfig, IErrorHandler, IErrorObj, IProduct, IProductManager, IValidator } from './ProductManagerTypes';
 
 class ProductManager implements IProductManager {
   private products: IProduct[];
@@ -13,12 +13,16 @@ class ProductManager implements IProductManager {
     ];
   }
   addOneProduct(product: IProduct): this {
-    const isValid = this.validator.objectInArray(product, this.products) as IExistsObj;
-    if (!isValid.exists) {
+    this.validator
+      .checkObjectInArrayById(product, this.products)
+      .checkStringsInObject(product)
+      .checkNumbersInObject(product, { isEqualZero: false, isLessZero: false });
+    const validationResult = this.validator.getResult();
+    if (validationResult.errorMessages.length === 0) {
       this.products.push(product);
       return this;
     }
-    throw this.validator.handleError(isValid);
+    throw this.validator.handleError(validationResult);
   }
   getAllProducts(): IProduct[] {
     return this.products;
@@ -26,31 +30,60 @@ class ProductManager implements IProductManager {
 }
 
 class Validator implements IValidator {
-  private result: IExistsObj;
+  private result: IErrorObj;
 
   constructor() {
-    this.result = { exists: false, errorMessage: '', index: 0 };
+    this.result = { duplicate: false, errorMessages: [], index: 0 };
   }
-  objectInArray<T extends IProduct>(obj: T, arr: T[]): IExistsObj | this {
+  checkObjectInArrayById<T extends IProduct>(obj: T, arr: T[]): this {
     const { id, name } = obj;
     const index = arr.findIndex((prd) => id === prd.id);
-
     if (index !== -1) {
-      this.result.exists = true;
-      this.result.errorMessage = `Product ${name} with id ${id} is already exists!`;
+      this.result.duplicate = true;
+      this.result.errorMessages.push(`Product ${name} with id ${id} is already exists!`);
       this.result.index = index;
-      return this.result;
+      return this;
     }
     return this;
   }
-  handleError<T extends IExistsObj>(err: T): IErrorHandler {
+
+  checkStringsInObject<T extends IProduct>(obj: T): this {
+    for (const [key, value] of Object.entries(obj)) {
+      if (typeof value === 'string' && !value.trim()) {
+        const msg = `The '${key}' must not be empty`;
+        this.result.errorMessages.push(msg);
+      }
+    }
+    return this;
+  }
+
+  checkNumbersInObject<T extends IProduct, C extends IConfig>(obj: T, config?: C | undefined): this {
+    for (const [key, value] of Object.entries(obj)) {
+      if (typeof value === 'number') {
+        if (!config?.isEqualZero && value === 0) {
+          const msg = `The '${key}' is set to '${value}' and must not be equal to zero!`;
+          this.result.errorMessages.push(msg);
+        }
+        if (!config?.isLessZero && value < 0) {
+          const msg = `The '${key}' is set to '${value}' and must be higher than zero!`;
+          this.result.errorMessages.push(msg);
+        }
+      }
+    }
+    return this;
+  }
+
+  handleError<T extends IErrorObj>(err: T): IErrorHandler {
     const customError = new Error() as IErrorHandler;
-    const { exists, errorMessage, index } = err;
-    customError.message = errorMessage;
+    const { duplicate: exists, errorMessages, index } = err;
+    customError.errorMessages = errorMessages;
     customError.index = index;
-    customError.exists = exists;
+    customError.duplicate = exists;
 
     return customError;
+  }
+  getResult(): IErrorObj {
+    return this.result;
   }
 }
 

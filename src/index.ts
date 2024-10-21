@@ -4,7 +4,7 @@ import { IProduct, ProductManager } from './ArrayMethods/addDeleteMethods';
 
 const productManager = new ProductManager();
 try {
-  const product1: IProduct = { id: 2, name: 'Desktop', price: 1200 };
+  const product1: IProduct = { id: 5, name: 'Laptop', price: 10, desc: 'Macos', ddd: 10 };
   console.log(productManager.addOneProduct(product1).getAllProducts());
 
   //   const product2: IProduct = { id: 2, name: 'Smartphone', price: 800 };
@@ -22,6 +22,12 @@ try {
   //   // Пробуем обновить несуществующий продукт
   //   ProductManager.updateProduct(10, { name: 'New Product' });
 } catch (error) {
+  if (error instanceof Error && error?.errorMessages) {
+    const { errorMessages } = error;
+    for (let i = 0; i < errorMessages.length; i++) {
+      console.error(errorMessages[i]);
+    }
+  }
   if (error instanceof Error) {
     console.error(error.message);
   }

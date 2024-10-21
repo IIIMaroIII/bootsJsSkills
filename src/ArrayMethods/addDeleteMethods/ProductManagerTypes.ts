@@ -1,23 +1,34 @@
 export interface IValidator {
-  objectInArray<T extends IProduct>(obj: T, arr: T[]): IExistsObj | this;
-  handleError<T extends IExistsObj>(err: T): IErrorHandler;
+  checkObjectInArrayById<T extends IProduct>(obj: T, arr: T[]): this;
+  checkStringsInObject<T extends IProduct, C extends IConfig>(obj: T, config?: C | undefined): this;
+  checkNumbersInObject<T extends IProduct, C extends IConfig>(obj: T, config?: C | undefined): this;
+  handleError<T extends IErrorObj>(err: T): IErrorHandler;
+  getResult(): IErrorObj;
 }
 export interface IProductManager {
   addOneProduct(product: IProduct): this | IErrorHandler;
   getAllProducts(): IProduct[];
 }
 
-export interface IExistsObj {
-  exists: boolean;
-  errorMessage: string;
+export interface IErrorObj {
+  duplicate: boolean;
+  errorMessages: string[];
   index: number | null;
 }
 
-export interface IErrorHandler extends Error, IExistsObj {}
+export interface IErrorHandler extends Error, IErrorObj {}
 
 export interface IProduct {
   id: number;
   name: string;
   price: number;
-  [key: string]: string | number | boolean | [{ [key: string]: string | number | boolean }];
+  [key: string]: string | number | boolean;
+}
+
+export interface IConfig {
+  maxLength?: number;
+  minLength?: number;
+  regex?: RegExp;
+  isEqualZero?: boolean;
+  isLessZero?: boolean;
 }
