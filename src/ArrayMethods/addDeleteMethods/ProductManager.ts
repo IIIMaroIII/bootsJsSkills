@@ -6,11 +6,7 @@ class ProductManager implements IProductManager {
 
   constructor() {
     this.validator = new Validator();
-    this.products = [
-      { id: 1, name: 'Laptop', price: 1200 },
-      { id: 2, name: 'Desktop', price: 1300 },
-      { id: 3, name: 'Tablet', price: 1500 },
-    ];
+    this.products = [];
   }
   addOneProduct(product: IProduct): this {
     this.validator
