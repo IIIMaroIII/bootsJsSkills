@@ -1,10 +1,11 @@
-import { IProduct, ProductManager } from './ArrayMethods/addDeleteMethods';
 // import { TaskManager } from "./inheritance/TaskManager/level_0";
 
+import { IProduct, ProductManager } from './ArrayMethods/addDeleteMethods';
+
+const productManager = new ProductManager();
 try {
-  const product1: IProduct = { id: 1, name: 'Laptop', price: 1200 };
-  console.log('product1', product1);
-  console.log(ProductManager.addOneProduct(product1).getProducts());
+  const product1: IProduct = { id: 2, name: 'Desktop', price: 1200 };
+  console.log(productManager.addOneProduct(product1).getAllProducts());
 
   //   const product2: IProduct = { id: 2, name: 'Smartphone', price: 800 };
   //   ProductManager.addOneProduct(product2);
@@ -21,5 +22,7 @@ try {
   //   // Пробуем обновить несуществующий продукт
   //   ProductManager.updateProduct(10, { name: 'New Product' });
 } catch (error) {
-  console.error('Error:', error);
+  if (error instanceof Error) {
+    console.error(error.message);
+  }
 }
