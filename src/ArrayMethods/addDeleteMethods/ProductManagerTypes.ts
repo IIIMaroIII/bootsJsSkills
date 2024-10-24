@@ -1,19 +1,23 @@
 export interface IValidator {
-  checkObjectInArrayById<T extends IProduct>(obj: T, arr: T[]): this;
-  checkStringsInObject<T extends IProduct, C extends IConfig>(obj: T, config?: C | undefined): this;
-  checkNumbersInObject<T extends IProduct, C extends IConfig>(obj: T, config?: C | undefined): this;
+  checkOneInArrayById<T extends IProduct>(incomingItem: T, currentItems: T[]): this;
+  checkManyInArrayById<T extends IProduct>(incomingItems: T[], currentItems: T[]): this;
+  checkStringsInObject<T extends IProduct, C extends IConfig>(incomingItem: T, config?: C | undefined): this;
+  checkNumbersInObject<T extends IProduct, C extends IConfig>(incomingItem: T, config?: C | undefined): this;
+  checkStringsInArray<T extends IProduct, C extends IConfig>(incomingItems: T[], config?: C | undefined): this;
+
   handleError<T extends IErrorObj>(err: T): IErrorHandler;
   getResult(): IErrorObj;
 }
 export interface IProductManager {
-  addOneProduct(product: IProduct): this | IErrorHandler;
+  addOneProduct(incomingItem: IProduct): this;
+  addManyProducts(incomingItems: IProduct[]): this;
   getAllProducts(): IProduct[];
 }
 
 export interface IErrorObj {
   duplicate: boolean;
   errorMessages: string[];
-  index: number | null;
+  index: number[];
 }
 
 export interface IErrorHandler extends Error, IErrorObj {}
