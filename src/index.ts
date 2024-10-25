@@ -4,18 +4,18 @@ import { IProduct, ProductManager } from './ArrayMethods/addDeleteMethods';
 
 const productManager = new ProductManager();
 try {
-  // const product1: IProduct = { id: 1, name: 'Laptop', price: 1000, desc: 'Macos', ddd: 10 };
+  const product1: IProduct = { id: 1, name: 'Laptop', price: 1000, desc: 'Macos', ddd: 10 };
   // const product2: IProduct = { id: 2, name: 'Desktop', price: 1200, desc: 'Linux', ddd: '110' };
   // const product3: IProduct = { id: 2, name: '', price: -1300, desc: '', ddd: 0 };
-  // console.log(productManager.addOneProduct(product1).addOneProduct(product2).addOneProduct(product3).getAllProducts());
-  const products: IProduct[] = [
-    { id: 4, name: 'Laptop', price: 1000, desc: 'Macos', ddd: 10 },
-    { id: 5, name: 'Desktop', price: 1200, desc: 'Linux', ddd: '110' },
-    { id: 6, name: '', price: 1300, desc: 'iPad', ddd: 123123 },
-    { id: 7, name: '', price: 1400, desc: '', ddd: '122' },
-    { id: 8, name: 'Tablet Android', price: 1300, desc: 'Samsung', ddd: 6 },
-  ];
-  console.log(productManager.addManyProducts(products));
+  console.log(productManager.addOneProduct(product1));
+  // const products: IProduct[] = [
+  //   { id: 4, name: 'Laptop', price: 1000, desc: 'Macos', ddd: 10 },
+  //   { id: 5, name: 'Desktop', price: 1200, desc: 'Linux', ddd: '110' },
+  //   { id: 6, name: '', price: 1300, desc: 'iPad', ddd: 123123 },
+  //   { id: 7, name: '', price: 1400, desc: '', ddd: '122' },
+  //   { id: 8, name: 'Tablet Android', price: 1300, desc: 'Samsung', ddd: 6 },
+  // ];
+  // console.log(productManager.addManyProducts(products));
 
   //   const product2: IProduct = { id: 2, name: 'Smartphone', price: 800 };
   //   ProductManager.addOneProduct(product2);
