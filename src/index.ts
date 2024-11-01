@@ -32,7 +32,7 @@ try {
   //   // Пробуем обновить несуществующий продукт
   //   ProductManager.updateProduct(10, { name: 'New Product' });
 } catch (error) {
-  if (error instanceof Error && error?.errorMessages) {
+  if (error instanceof IVal && error?.errorMessages) {
     const { errorMessages } = error;
     for (let i = 0; i < errorMessages.length; i++) {
       console.error(errorMessages[i]);

@@ -15,6 +15,7 @@ class ProductManager implements IProductManager {
     ];
   }
   addOneProduct(incomingItem: IProduct): this {
+    console.log('incomingItem', incomingItem);
     return this;
   }
   addManyProducts(incomingItems: IProduct[]): this {
