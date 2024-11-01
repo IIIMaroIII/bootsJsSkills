@@ -1,14 +1,8 @@
-export interface IValidator {
-  createError<T extends IErrors>(err: T): ICreateError;
-  getErrors(): IErrors;
+export interface IValidator<T> {
+  validate(v: T): IValidator<T>;
 }
-export interface IErrors {
+
+export interface IErrors extends Error {
   isValid: boolean;
   errorMessages: string[];
 }
-
-export interface IValidationRule<T> {
-  (value: T, customMessage?: string): this;
-}
-
-export interface ICreateError extends Error, IErrors {}
