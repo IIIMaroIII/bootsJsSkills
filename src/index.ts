@@ -1,8 +1,11 @@
-// import { TaskManager } from "./inheritance/TaskManager/level_0";
-
-import validate from './Validator/Validator';
+import { validate } from './Validator';
 
 try {
-  validate(2).even(23).getErrors();
-  validate('2').maxLength(2).getErrors();
-} catch (error) {}
+  const res = validate(2).getInfo();
+  console.log('res', res);
+} catch (error) {
+  if (error instanceof Error) {
+    console.error(error.message);
+  }
+  console.log(error);
+}
